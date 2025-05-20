@@ -68,7 +68,7 @@ const InterviewChat = ({ sessionId, onInterviewEnd, firstMessage }) => {
         window.speechSynthesis.cancel();
         
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.rate = 1.0;
+        utterance.rate = 1.3;
         utterance.pitch = 0.7;
         
         // Load voices properly - this is where the problem likely is
