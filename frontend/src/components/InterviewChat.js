@@ -69,7 +69,7 @@ const InterviewChat = ({ sessionId, onInterviewEnd, firstMessage }) => {
         
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.rate = 1.0;
-        utterance.pitch = 1.0;
+        utterance.pitch = 0.7;
         
         // Load voices properly - this is where the problem likely is
         let voices = window.speechSynthesis.getVoices();
@@ -86,15 +86,20 @@ const InterviewChat = ({ sessionId, onInterviewEnd, firstMessage }) => {
         }
         
         function setUpVoiceAndSpeak() {
-          // Find an English voice - try to find a good one first, then fall back
+          // First try to find the Eddy voice specifically
+          const eddyVoice = voices.find(voice => 
+            voice.name.includes('Eddy') && voice.lang === 'en-US'
+          );
+          
+          // If Eddy voice not found, fall back to other English voices
           const preferredVoices = voices.filter(voice => 
             voice.lang.startsWith('en-') && 
             (voice.name.includes('Google') || voice.name.includes('Natural') || voice.localService === false)
           );
           
-          const englishVoice = preferredVoices.length > 0 
+          const englishVoice = eddyVoice || (preferredVoices.length > 0 
             ? preferredVoices[0] 
-            : voices.find(voice => voice.lang.startsWith('en-'));
+            : voices.find(voice => voice.lang.startsWith('en-')));
           
           if (englishVoice) {
             console.log('Using voice:', englishVoice.name);
@@ -260,7 +265,7 @@ const InterviewChat = ({ sessionId, onInterviewEnd, firstMessage }) => {
       sendAnswer();
     }
   };
-
+  
   // Debug function for text-to-speech
   const testTextToSpeech = () => {
     try {
@@ -291,13 +296,6 @@ const InterviewChat = ({ sessionId, onInterviewEnd, firstMessage }) => {
           <h2 className="text-xl font-semibold">Interview Session</h2>
           <p className="text-sm text-gray-500">Respond to the interviewer's questions</p>
         </div>
-        <button 
-          onClick={testTextToSpeech}
-          className="text-xs bg-gray-200 hover:bg-gray-300 rounded px-2 py-1 text-gray-700"
-          title="Test speech synthesis"
-        >
-          Test Audio
-        </button>
       </div>
       
       {/* Chat messages */}
