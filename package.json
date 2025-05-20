@@ -1,0 +1,42 @@
+{
+  "name": "ai_interviewer",
+  "version": "1.0.0",
+  "description": "An intelligent interview preparation platform using Google Gemini 2.5 Flash",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "install-client": "cd frontend && npm install",
+    "install-server": "npm install",
+    "install-all": "npm run install-server && npm run install-client",
+    "build": "cd frontend && npm run build",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run install-client && npm run build"
+  },
+  "keywords": [
+    "interview",
+    "ai",
+    "gemini",
+    "react",
+    "node"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3",
+    "multer": "^1.4.5-lts.1",
+    "pdf-parse": "^1.1.1",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "eslint": "^8.38.0",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.7"
+  }
+}
